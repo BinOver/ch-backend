@@ -40,22 +40,22 @@ class ProductManager {
     }
 }
 
-// Crear una instancia de la clase ProductManager
+// Crea una instancia de la clase ProductManager
 const productManager = new ProductManager();
 
-// Agregar algunos productos con sus respectivas propiedades
+// Agrega algunos productos con sus propiedades
 productManager.addProduct("Producto 1", "Descripción del producto 1", 10, "ruta1.jpg", "asdas", 50);
 productManager.addProduct("Producto 2", "Descripción del producto 2", 20, "ruta2.jpg", "dfgdf", 30);
 productManager.addProduct("Producto 3", "Descripción del producto 3", 15, "ruta3.jpg", "hghgw", 20);
 productManager.addProduct("Producto 4", "Descripción del producto 4", 15, "ruta3.jpg", "hghgw", 20);
 
-// Obtener la lista de productos y mostrarla en la consola
+// Obtiene una la lista de productos y la muestra en la consola
 console.log(productManager.getProducts());
 
-// Buscar un producto por su id y mostrarlo en la consola
+// Buscar un producto por su id y lo muestra en la consola
 const foundProduct = productManager.getProductById(2);
 console.log("Producto encontrado:", foundProduct);
 
-// Intentar buscar un producto con un id inexistente y mostrar el mensaje de "producto no encontrado"
+// Intenta buscar un producto con un id inexistente y muestra el mensaje de "Not Found"
 const notFoundProduct = productManager.getProductById(5);
 console.log(notFoundProduct);
