@@ -120,7 +120,7 @@ async function main() {
     "Descripción del producto 4",
     15,
     "ruta3.jpg",
-    "hghgw",
+    "hghgw", // Duplicado
     20
   );
 
