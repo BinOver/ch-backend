@@ -1,4 +1,3 @@
-
 import { promises as fs } from "fs";
 
 const path = "../data/products.js";
@@ -36,14 +35,17 @@ export class ProductManager {
     if (getProduct) {
       return getProduct;
     } else {
-      return "Not found";
+      return null;
     }
   }
 
-  async updateProduct(id, {title, description, price, thumbnail, code, stock}) {
+  async updateProduct(
+    id,
+    { title, description, price, thumbnail, code, stock }
+  ) {
     const products = JSON.parse(await fs.readFile(this.path, "utf8"));
-    const index = products.findIndex(product => product.id === id);
-    if(index != -1){
+    const index = products.findIndex((product) => product.id === id);
+    if (index != -1) {
       products[index].title = title;
       products[index].description = description;
       products[index].price = price;
@@ -53,17 +55,16 @@ export class ProductManager {
       await fs.writeFile(path, JSON.stringify(products));
 
       console.log(index);
-    }else{
-      console.log("No se encontro el producto")
+    } else {
+      console.log("No se encontro el producto");
     }
   }
 
-  async deleteProduct(id){
+  async deleteProduct(id) {
     const products = JSON.parse(await fs.readFile(this.path, "utf8"));
-    const modProducts = products.filter (prod => prod.id != id);
+    const modProducts = products.filter((prod) => prod.id !== id);
     await fs.writeFile(path, JSON.stringify(modProducts));
   }
-
 }
 
 // async function main() {
@@ -115,9 +116,13 @@ export class ProductManager {
 //   const allproducts = await productManager.getProducts();
 //   console.log(allproducts);
 
-//   // Buscar un producto por su id y lo muestra en la consola
+// Buscar un producto por su id y lo muestra en la consola
 //   const foundProduct = await productManager.getProductById(2);
-//   console.log("Producto encontrado:", foundProduct);
+// if (foundProduct === null){
+//   console.log("Producto no encontrado")
+// }else{
+//    console.log("Producto encontrado:", foundProduct);
+// }
 
 //   // Intenta buscar un producto con un id inexistente y muestra el mensaje de "Not Found"
 //   const notFoundProduct = await productManager.getProductById(5);
