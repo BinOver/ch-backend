@@ -13,11 +13,12 @@ async function main() {
 
   // Devuelve el producto por ID ejem /product/2 devuelve el producto con indice 2, si no lo encuentra muestra "Producto no encontrado"
   app.get("/products/:pid", async (req, resp) => {
-    const prod = await productManager.getProductById(parseInt(req.params.pid));
+    const pid = parseInt(req.params.pid);
+    const prod = await productManager.getProductById(pid);
     if (prod) {
       resp.send(prod);
     } else {
-      resp.send("Producto no encontrado");
+      resp.send("Producto no encontrado").status(404);
     }
   });
 
@@ -31,7 +32,7 @@ async function main() {
 
   // Mensaje de error 404 al ingresar a cualquier direccion que no se haya programado
   app.get("*", (req, resp) => {
-    resp.status(404).send("Error 404");
+    resp.send("Error 404").status(404);
   });
 
   app.listen(PORT, () => {
