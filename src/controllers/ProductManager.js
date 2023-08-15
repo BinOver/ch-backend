@@ -2,24 +2,34 @@ import { promises as fs } from "fs";
 
 export class ProductManager {
   static path = "./data/products.js";
-  constructor() {}
+
+  constructor() {
+    this.products = [];
+  }
+
+  static incrementID() {
+    if (!this.idIncrement) {
+      this.idIncrement = 1;
+    } else {
+      this.idIncrement++;
+    }
+    return this.idIncrement;
+  }
 
   async addProduct(product) {
     const products = JSON.parse(await fs.readFile(ProductManager.path, "utf8"));
+    
     const codeValid = products.some(
       (existProduct) => existProduct.code === product.code
     );
     if (codeValid) {
       console.error(`El código ${product.code} ya existe.`);
       return false;
-    }
-    if (product.code != "" || product.stock >= 0) {
+    }else {
+      product.id = ProductManager.incrementID();
       products.push(product);
       await fs.writeFile(ProductManager.path, JSON.stringify(products));
       return true;
-    } else {
-      console.log("No se pueden agregar productos vacios");
-      return false;
     }
   }
 
@@ -34,20 +44,21 @@ export class ProductManager {
 
   async getProductById(id) {
     const products = JSON.parse(await fs.readFile(ProductManager.path, "utf8"));
-    const getProduct = products.find((product) => product.id === id);
+    const getProduct = products.find((product) => product.id === parseInt(id));
     if (getProduct) {
       return getProduct;
     } else {
-      return null;
+      return false;
     }
   }
 
   async updateProduct(
     id,
-    { title, description, price, thumbnail, code, stock }
+    { title, description, price, thumbnail, code, stock, status, category }
   ) {
     const products = JSON.parse(await fs.readFile(ProductManager.path, "utf8"));
-    const index = products.findIndex((product) => product.id === id);
+    const index = products.findIndex((product) => product.id === parseInt(id));
+    console.log(index);
     if (index != -1) {
       products[index].title = title;
       products[index].description = description;
@@ -55,17 +66,27 @@ export class ProductManager {
       products[index].thumbnail = thumbnail;
       products[index].code = code;
       products[index].stock = stock;
-      await fs.writeFile(path, JSON.stringify(products));
-
+      products[index].status = status;
+      products[index].category = category;
+      await fs.writeFile(ProductManager.path, JSON.stringify(products));
       console.log(index);
+      return true;
     } else {
       console.log("No se encontro el producto");
+      return false;
     }
   }
 
   async deleteProduct(id) {
     const products = JSON.parse(await fs.readFile(ProductManager.path, "utf8"));
-    const modProducts = products.filter((prod) => prod.id !== id);
-    await fs.writeFile(path, JSON.stringify(modProducts));
+    const isID = products.findIndex((product) => product.id === parseInt(id));
+    if (isID != -1) {
+      const modProducts = products.filter((prod) => prod.id !== parseInt(id));
+      await fs.writeFile(ProductManager.path, JSON.stringify(modProducts));
+      console.log(modProducts);
+      return true;
+    } else {
+      return false;
+    }
   }
 }

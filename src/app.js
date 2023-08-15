@@ -8,7 +8,7 @@ async function main() {
   const productManager = new ProductManager();
 
   app.get("/", (req, resp) => {
-    resp.send("Hola Mundo");
+    resp.status(200).send("Hola Mundo");
   });
 
   // Devuelve el producto por ID ejem /product/2 devuelve el producto con indice 2, si no lo encuentra muestra "Producto no encontrado"
@@ -16,23 +16,22 @@ async function main() {
     const pid = parseInt(req.params.pid);
     const prod = await productManager.getProductById(pid);
     if (prod) {
-      resp.send(prod);
+      resp.status(200).send(prod);
     } else {
-      resp.send("Producto no encontrado").status(404);
+      resp.status(404).send("Producto no encontrado");
     }
   });
 
   // Devuelve los productos, se puede utilizar limites con ejem /products?limit=10, si se ingresa un valor no permitido o ningun valor devuelve todos los productos
   app.get("/products", async (req, resp) => {
-    const productos = await productManager.getProducts(
-      parseInt(req.query.limit)
-    );
-    resp.send(productos);
+    const limit = parseInt(req.query.limit);
+    const productos = await productManager.getProducts(limit);
+    resp.status(200).send(productos);
   });
 
   // Mensaje de error 404 al ingresar a cualquier direccion que no se haya programado
   app.get("*", (req, resp) => {
-    resp.send("Error 404").status(404);
+    resp.status(404).send("Error 404");
   });
 
   app.listen(PORT, () => {

@@ -1,1 +1,1 @@
-[{"title":"Producto 1","description":"Descripción del producto 1","price":10,"thumbnail":"ruta1.jpg","code":"asdas","stock":50,"id":1},{"title":"Producto 2","description":"Descripción del producto 2","price":20,"thumbnail":"ruta2.jpg","code":"dfgdf","stock":30,"id":2},{"title":"Producto 3","description":"Descripción del producto 3","price":15,"thumbnail":"ruta3.jpg","code":"hghgw","stock":20,"id":3}]
+[{"title":"Producto 10","description":"Descripcion del producto 10","price":10,"thumbnail":"ruta10.jpg","code":"10mi3","stock":10,"status":true,"category":"category 10","id":1}]
