@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { ProductManager } from "../controllers/ProductManager.js";
-import { Product } from "../Product.js";
+import { Product } from "../../old/Product.js";
 
 const routerProd = Router();
 const productManager = new ProductManager();
@@ -24,7 +24,7 @@ routerProd.post("/", async (req, res) => {
   if (confirm) {
     res.status(200).send("Producto creado correctamente");
   } else {
-    res.status(400).send("Producto ya existente");
+    res.status(400).send("Producto ya existente o campos obligatorios no enviados");
   }
 });
 routerProd.put("/:id", async (req, res) => {

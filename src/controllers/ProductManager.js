@@ -18,10 +18,25 @@ export class ProductManager {
 
   async addProduct(product) {
     const products = JSON.parse(await fs.readFile(ProductManager.path, "utf8"));
-    
     const codeValid = products.some(
       (existProduct) => existProduct.code === product.code
     );
+// Validacion de existencia de campos obligatorios
+    if (!('title' in product) || !('description' in product) || !('price' in product) || !('code' in product) || !('category' in product)){
+      console.error("Campo obligatorio no existente");
+      return false;
+    }
+// Validacion de campos obligatorios sin datos vacios
+    if (product.title==="" || product.description==="" || product.price < 0 || product.code ==="" || product.category===""){
+      console.error("Producto con datos vacios");
+        return false;
+    }
+// Seteo de status a true si no existe o es distinto de boolean
+    if (!('status' in product) || typeof product.status !== 'boolean'){
+      console.log("Default statu true");
+      product.status = true;
+    }
+// Verificar que el valor del campo code no exista
     if (codeValid) {
       console.error(`El código ${product.code} ya existe.`);
       return false;
@@ -58,7 +73,6 @@ export class ProductManager {
   ) {
     const products = JSON.parse(await fs.readFile(ProductManager.path, "utf8"));
     const index = products.findIndex((product) => product.id === parseInt(id));
-    console.log(index);
     if (index != -1) {
       products[index].title = title;
       products[index].description = description;
@@ -69,7 +83,6 @@ export class ProductManager {
       products[index].status = status;
       products[index].category = category;
       await fs.writeFile(ProductManager.path, JSON.stringify(products));
-      console.log(index);
       return true;
     } else {
       console.log("No se encontro el producto");
@@ -90,3 +103,5 @@ export class ProductManager {
     }
   }
 }
+
+export default ProductManager

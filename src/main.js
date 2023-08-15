@@ -26,7 +26,7 @@ const upload = multer({ storage: storage });
 //Routes
 app.use("/static", express.static(path.join(__dirname, "/public")));
 app.use("/api/products", routerProd);
-app.use("api/carts", routerCarts);
+app.use("/api/carts", routerCarts);
 
 app.post("/upload", upload.single("product"), (req, res) => {
   console.log(req.file);
