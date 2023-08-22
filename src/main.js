@@ -2,11 +2,23 @@ import express from "express";
 import routerProd from "./routes/products.routes.js";
 import routerCarts from "./routes/carts.routes.js";
 import multer from "multer";
+import { engine } from "express-handlebars";
+import { Server } from "socket.io";
 import { __dirname } from "./path.js";
 import path from "path";
+import { ProductManager } from "./controllers/ProductManager.js";
+
 
 const PORT = 4000;
 const app = express();
+const productManager = new ProductManager;
+
+//Server
+const server = app.listen(PORT, () => {
+  console.log(`server listening on port ${PORT}`);
+});
+
+const io = new Server(server);
 
 // Configuracion multer
 const storage = multer.diskStorage({
@@ -21,12 +33,50 @@ const storage = multer.diskStorage({
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.engine('handlebars',engine());
+app.set('view engine','handlebars');
+app.set('views', path.resolve(__dirname, './views'))
 const upload = multer({ storage: storage });
+
+//Conexion de Socket.io
+io.on("connection", (socket) => {
+  console.log("Conecion con socket.io");
+  socket.on("newProduct", (prod) =>{
+    productManager.addProduct(prod);
+    socket.emit("createdProduct", "El producto ha sido creado");
+  })
+  socket.on("products", async () => {
+    const products = await productManager.getProducts();
+    socket.emit("listProds", products);
+  })
+})
 
 //Routes
 app.use("/static", express.static(path.join(__dirname, "/public")));
+app.use("/realtimeproducts", express.static(path.join(__dirname, "/public")));
 app.use("/api/products", routerProd);
 app.use("/api/carts", routerCarts);
+
+//HBS
+app.get('/static', async(req,res) => {
+  const prods = await productManager.getProducts();
+  console.log(prods)
+  res.render("home", {
+    rutaCSS: "home.css",
+    rutaScript: "home.js",
+    titulo: "Productos",
+    productos: prods
+  })
+})
+
+app.get('/realtimeproducts',async (req,res) => {
+  const prods = await productManager.getProducts();
+  res.render("realTimeProducts", {
+    rutaCSS: "realTimeProducts.css",
+    rutaScript: "realTimeProducts.js",
+    titulo: "Productos dinamicos",
+  })
+})
 
 app.post("/upload", upload.single("product"), (req, res) => {
   console.log(req.file);
@@ -34,7 +84,3 @@ app.post("/upload", upload.single("product"), (req, res) => {
   res.status(200).send("Se envio correctamente");
 });
 
-//Server
-app.listen(PORT, () => {
-  console.log(`server listening on port ${PORT}`);
-});

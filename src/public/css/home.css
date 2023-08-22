@@ -1,0 +1,32 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    color: darkgray;
+    margin:0;
+    padding: 20px;
+    background-color: rgb(38, 45, 51);
+}
+
+h1 {
+    text-align: center;
+    color: #c99343;
+}
+
+.styled-table {
+    border-collapse: collapse; 
+    width: 100%; 
+    border: 2px solid #ddd; 
+}
+
+.styled-table td {
+    border: 1px solid #727272; 
+    padding: 8px; 
+    text-align: left; 
+}
+
+.styled-table thead {
+    border: 1px solid #727272; 
+    padding: 8px; 
+    text-align: left;
+    background-color: #cfcfcf;
+    color: rgb(65, 74, 83);
+}
