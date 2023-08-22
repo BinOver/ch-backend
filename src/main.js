@@ -59,24 +59,34 @@ app.use("/api/carts", routerCarts);
 
 //HBS
 app.get('/static', async(req,res) => {
-  const prods = await productManager.getProducts();
-  console.log(prods)
-  res.render("home", {
-    rutaCSS: "home.css",
-    rutaScript: "home.js",
-    titulo: "Productos",
-    productos: prods
-  })
-})
+  try {
+    const prods = await productManager.getProducts();
+    console.log(prods)
+    res.render("home", {
+      rutaCSS: "home.css",
+      rutaScript: "home.js",
+      titulo: "Productos",
+      productos: prods
+    })
+  }
+  catch (err) {
+    console.log("Error al obtener los productos: ", err);
+  }
+});
 
 app.get('/realtimeproducts',async (req,res) => {
-  const prods = await productManager.getProducts();
-  res.render("realTimeProducts", {
-    rutaCSS: "realTimeProducts.css",
-    rutaScript: "realTimeProducts.js",
-    titulo: "Productos dinamicos",
-  })
-})
+  try {
+    const prods = await productManager.getProducts();
+    res.render("realTimeProducts", {
+      rutaCSS: "realTimeProducts.css",
+      rutaScript: "realTimeProducts.js",
+      titulo: "Productos dinamicos",
+    })
+  }
+  catch (err) {
+    console.error("Error al obtener productos: ",err);
+  }
+});
 
 app.post("/upload", upload.single("product"), (req, res) => {
   console.log(req.file);

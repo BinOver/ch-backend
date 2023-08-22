@@ -14,7 +14,8 @@ h1 {
 .styled-table {
     border-collapse: collapse; 
     width: 100%; 
-    border: 2px solid #ddd; 
+    border: 2px solid #ddd;
+    margin: 10px auto; 
 }
 
 .styled-table td {
