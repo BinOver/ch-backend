@@ -1,6 +1,8 @@
 import express from "express";
 import routerProd from "./routes/products.routes.js";
 import routerCarts from "./routes/carts.routes.js";
+import userRouter from "./routes/users.routes.js";
+import mongoose from 'mongoose';
 import multer from "multer";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
@@ -15,10 +17,15 @@ const productManager = new ProductManager;
 
 //Server
 const server = app.listen(PORT, () => {
-  console.log(`server listening on port ${PORT}`);
+  console.log(`Server listening on port ${PORT}`);
 });
 
 const io = new Server(server);
+
+// Conexion con MongoDB Atlas
+mongoose.connect(`mongodb+srv://binover:coderhouse@cluster0.0yn6sgp.mongodb.net/?retryWrites=true&w=majority`)
+.then(() => console.log("DB conectada"))
+.catch(err => console.log("Error en conexion a MongoDB Atlas: ", err))
 
 // Configuracion multer
 const storage = multer.diskStorage({
@@ -56,6 +63,7 @@ app.use("/static", express.static(path.join(__dirname, "/public")));
 app.use("/realtimeproducts", express.static(path.join(__dirname, "/public")));
 app.use("/api/products", routerProd);
 app.use("/api/carts", routerCarts);
+app.use("/api/users", userRouter);
 
 //HBS
 app.get('/static', async(req,res) => {
