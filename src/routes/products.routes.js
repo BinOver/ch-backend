@@ -6,14 +6,24 @@ import productModel from "../models/products.models.js";
 const productRouter = Router();
 
 productRouter.get('/',async (req,res) => {
-    let { limit } = req.query;
+    let { limit, page, sort, category, status} = req.query;
 
-    if (!limit) {
-        limit = 10;
-    }
+    if (!limit) limit = 10;
+    if (!page) page = 1;
+
+    const options = {
+        limit: parseInt(limit),
+        page: parseInt(page),
+    };
+    if (sort) options.sort = { price: sort };
+
+    let query = {};
+    if (category) query = {...query,category: category};
+    if (status) query = {...query, status: status};
 
     try {
-        const prods =  await productModel.find().limit(limit);
+        // const prods =  await productModel.find().limit(limit);
+        const prods =  await productModel.paginate(query,options);
         res.status(200).send({ resultado: 'OK', products: prods });
     }
     catch (err) {
