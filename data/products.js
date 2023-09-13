@@ -1,1 +1,1 @@
-[]
+[{"title":"Prueba 1","description":"Descripcion prueba 1","stock":3,"code":"asdfdfghfgh","price":234,"category":"Prueba1","status":true,"id":1}]

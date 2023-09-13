@@ -1,6 +1,8 @@
 import express from "express";
-import routerProd from "./routes/products.routes.js";
-import routerCarts from "./routes/carts.routes.js";
+// import routerProd from "./routes/products.routes.js";
+// import routerCarts from "./routes/carts.routes.js";
+import productRouter from "./routes/products.routes.js"
+import cartRouter from "./routes/carts.routes.js";
 import userRouter from "./routes/users.routes.js";
 import mongoose from 'mongoose';
 import multer from "multer";
@@ -9,6 +11,7 @@ import { Server } from "socket.io";
 import { __dirname } from "./path.js";
 import path from "path";
 import { ProductManager } from "./controllers/ProductManager.js";
+import cartModel from "./models/carts.model.js";
 
 
 const PORT = 4000;
@@ -24,7 +27,10 @@ const io = new Server(server);
 
 // Conexion con MongoDB Atlas
 mongoose.connect(`mongodb+srv://binover:coderhouse@cluster0.0yn6sgp.mongodb.net/?retryWrites=true&w=majority`)
-.then(() => console.log("DB conectada"))
+.then(async () => {
+  console.log("DB conectada")
+  // await cartModel.create({})
+})
 .catch(err => console.log("Error en conexion a MongoDB Atlas: ", err))
 
 // Configuracion multer
@@ -61,8 +67,8 @@ io.on("connection", (socket) => {
 //Routes
 app.use("/static", express.static(path.join(__dirname, "/public")));
 app.use("/realtimeproducts", express.static(path.join(__dirname, "/public")));
-app.use("/api/products", routerProd);
-app.use("/api/carts", routerCarts);
+app.use("/api/products", productRouter);
+app.use("/api/carts", cartRouter);
 app.use("/api/users", userRouter);
 
 //HBS
