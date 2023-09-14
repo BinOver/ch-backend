@@ -13,14 +13,13 @@ productRouter.get('/',async (req,res) => {
         limit: parseInt(limit),
         page: parseInt(page),
     };
-    if (sort) options.sort = { price: sort };
+    if (sort === 'asc'|| sort === 'desc') options.sort = { price: sort };
 
     let query = {};
     if (category) query = {...query,category: category};
     if (status) query = {...query, status: status};
 
     try {
-        // const prods =  await productModel.find().limit(limit);
         const prods =  await productModel.paginate(query,options);
         res.status(200).send({ resultado: 'OK', products: prods });
     }
