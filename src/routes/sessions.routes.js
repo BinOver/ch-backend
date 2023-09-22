@@ -1,5 +1,5 @@
 import { Router } from "express";
-import userModel from "../models/users.models.js"
+import userModel from "../models/users.models.js";
 
 const sessionRouter = Router();
 
@@ -20,10 +20,11 @@ sessionRouter.post('/login',async (req, res) => {
                 res.status(401).send({resultado: 'Unauthorized', message: user});
             }
         } else {
+            console.log("no encontrado")
             res.status(404).send({resultado: 'Not Found', message: user});
         }
     }catch (err) {
-        res.status(400).send({error: `Erro en logion ${err}`});
+        res.status(400).send({error: `Erro en login ${err}`});
 
     }
 })
@@ -31,9 +32,10 @@ sessionRouter.post('/login',async (req, res) => {
 sessionRouter.get('/logout',async (req, res) => {
     if (req.session.login){
         req.session.destroy();
-        res.status(200).send({resutado: 'Sesion terminada'});
+        // res.status(200).send({resutado: 'Sesion terminada'});
+        res.redirect('/login',200,{resutado: 'Sesion terminada'});
     }else{
-        res.status(404).send({resutado: 'Sesion no encontrada'});
+        res.redirect('/login',400,{resutado: 'Sesion no encontrada'});
     }
 
 });

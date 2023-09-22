@@ -95,6 +95,10 @@ io.on("connection", (socket) => {
 //Routes
 app.use("/static", express.static(path.join(__dirname, "/public")));
 app.use("/realtimeproducts", express.static(path.join(__dirname, "/public")));
+app.use("/login", express.static(path.join(__dirname, "/public")));
+app.use("/logout", express.static(path.join(__dirname, "/public")));
+app.use("/login", sessionRouter);
+app.use("/logout", sessionRouter);
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/users", userRouter);
@@ -110,7 +114,7 @@ app.get('/getCookie', (req, res) => {
 })
 
 //Sessions
-app.get('/login', (req, res) => {
+app.get('/login2', (req, res) => {
   const{email, password} = req.body;
 
   if(email === "admin@admin.com" && password === "1234"){
@@ -137,7 +141,7 @@ app.get('/session',(req,res) => {
   }
 })
 
-app.get('/logout',(req,res) => {
+app.get('/logout2',(req,res) => {
   req.session.destroy(() => {
     res.send("Has salido de la sesion");
   });
@@ -172,6 +176,32 @@ app.get('/realtimeproducts',async (req,res) => {
   }
   catch (err) {
     console.error("Error al obtener productos: ",err);
+  }
+});
+
+app.get('/login',async (req,res) => {
+  try {
+    res.render("login", {
+      rutaCSS: "login.css",
+      rutaScript: "login.js",
+      titulo: "Login",
+    })
+  }
+  catch (err) {
+    console.error("Error: ",err);
+  }
+});
+
+app.get('/logout',async (req,res) => {
+  try {
+    res.render("logout", {
+      rutaCSS: "logout.css",
+      rutaScript: "logout.js",
+      titulo: "Logout",
+    })
+  }
+  catch (err) {
+    console.error("Error: ",err);
   }
 });
 
