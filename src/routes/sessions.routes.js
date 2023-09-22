@@ -3,7 +3,7 @@ import userModel from "../models/users.models.js";
 
 const sessionRouter = Router();
 
-sessionRouter.post('/login',async (req, res) => {
+sessionRouter.post('/',async (req, res) => {
     const {email, password} = req.body;
 
     try {
@@ -29,7 +29,7 @@ sessionRouter.post('/login',async (req, res) => {
     }
 })
 
-sessionRouter.get('/logout',async (req, res) => {
+sessionRouter.get('/',async (req, res) => {
     if (req.session.login){
         req.session.destroy();
         // res.status(200).send({resutado: 'Sesion terminada'});

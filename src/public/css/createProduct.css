@@ -1,0 +1,63 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    color: darkgray;
+    margin:0;
+    padding: 20px;
+    background-color: rgb(38, 45, 51);
+}
+
+h1 {
+    text-align: center;
+    color: #c99343;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+label, input {
+    display: block;
+    margin-bottom: 10px;
+    max-width: 380px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border:1px solid #ccc;
+}
+
+button{
+    background-color: cadetblue;
+    color: aliceblue;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+.styled-table {
+    border-collapse: collapse; 
+    width: 100%; 
+    border: 2px solid #ddd;
+    margin: 10px auto;
+}
+
+.styled-table td {
+    border: 1px solid #727272; 
+    padding: 8px; 
+    text-align: left; 
+}
+
+.styled-table thead {
+    border: 1px solid #727272; 
+    padding: 8px; 
+    text-align: left;
+    background-color: #cfcfcf;
+    color: rgb(65, 74, 83);
+}

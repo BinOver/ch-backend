@@ -98,9 +98,9 @@ app.use("/realtimeproducts", express.static(path.join(__dirname, "/public")));
 app.use("/login", express.static(path.join(__dirname, "/public")));
 app.use("/logout", express.static(path.join(__dirname, "/public")));
 app.use("/register", express.static(path.join(__dirname, "/public")));
-app.use("/login", sessionRouter);
-app.use("/logout", sessionRouter);
-app.use("/register", userRouter);
+app.use("/products", express.static(path.join(__dirname, "/public")));
+app.use("/api/login", sessionRouter);
+app.use("/api/logout", sessionRouter);
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/users", userRouter);
@@ -207,12 +207,25 @@ app.get('/logout',async (req,res) => {
   }
 });
 
-app.get('/register/user',async (req,res) => {
+app.get('/register',async (req,res) => {
   try {
     res.render("register", {
       rutaCSS: "register.css",
       rutaScript: "register.js",
       titulo: "Register",
+    })
+  }
+  catch (err) {
+    console.error("Error: ",err);
+  }
+});
+
+app.get('/products/create',async (req,res) => {
+  try {
+    res.render("createProduct", {
+      rutaCSS: "createProduct.css",
+      rutaScript: "createProduct.js",
+      titulo: "Crear Producto",
     })
   }
   catch (err) {
