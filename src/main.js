@@ -15,6 +15,9 @@ import cookieParser from "cookie-parser";
 import cartModel from "./models/carts.model.js";
 import MongoStore from 'connect-mongo';
 import mongoose from 'mongoose';
+import passport from 'passport';
+import initializePassport from './config/passport.js';
+
 //import FileStorage from "session-file-store";
 // import routerProd from "./routes/products.routes.js";
 // import routerCarts from "./routes/carts.routes.js";
@@ -65,6 +68,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session());
 function auth(req, res, next) {
   console.log(req.session.email)
   if (req.session.email ==='admin@admin.com') {
