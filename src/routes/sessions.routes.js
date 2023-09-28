@@ -24,31 +24,14 @@ sessionRouter.post('/',passport.authenticate('login'),async (req, res) => {
     }
 })
 
-/*sessionRouter.post('/',async (req, res) => {
-    const {email, password} = req.body;
 
-    try {
-        if (req.session.login){
-            res.status(200).send({resutado: 'Login valido', message: user});
-        }
-        const user = await userModel.findOne({ email: email})
-        if (user) {
-            if (validatePassword(password,user.password)) {
-                req.session.login = true;
-                res.redirect('/api/products',200,{resutado: 'Login valido', message: user});
-                // res.status(200).send({resutado: 'Login valido', message: user});
-            } else {
-                res.status(401).send({resultado: 'Unauthorized', message: user});
-            }
-        } else {
-            console.log("no encontrado")
-            res.status(404).send({resultado: 'Not Found', message: user});
-        }
-    }catch (err) {
-        res.status(400).send({error: `Erro en login ${err}`});
+sessionRouter.get('/github', passport.authenticate('github',{scope:['username:email']}), async(req,res)=>{
 
-    }
-})*/
+})
+sessionRouter.get('githubSession', passport.authenticate('github'), async(req,res)=>{
+    req.session.user = req.user;
+    res.status(200).send({mensaje:'Sesion creada'});
+})
 
 sessionRouter.get('/',async (req, res) => {
     if (req.session.login){
