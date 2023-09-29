@@ -26,9 +26,9 @@ sessionRouter.post('/',passport.authenticate('login'),async (req, res) => {
 
 
 sessionRouter.get('/github', passport.authenticate('github',{scope:['username:email']}), async(req,res)=>{
-
+    res.status(200).send({mensaje: 'Usuario creado'});
 })
-sessionRouter.get('githubSession', passport.authenticate('github'), async(req,res)=>{
+sessionRouter.get('/githubSession', passport.authenticate('github'), async(req,res)=>{
     req.session.user = req.user;
     res.status(200).send({mensaje:'Sesion creada'});
 })
