@@ -18,11 +18,6 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 import initializePassport from './config/passport.js';
 
-//import FileStorage from "session-file-store";
-// import routerProd from "./routes/products.routes.js";
-// import routerCarts from "./routes/carts.routes.js";
-
-
 const PORT = 4000;
 const app = express();
 const productManager = new ProductManager;
