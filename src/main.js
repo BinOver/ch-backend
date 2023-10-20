@@ -1,10 +1,11 @@
 import 'dotenv/config';
 import express from "express";
 import session from 'express-session';
-import productRouter from "./routes/products.routes.js"
-import cartRouter from "./routes/carts.routes.js";
-import userRouter from "./routes/users.routes.js";
-import sessionRouter from './routes/sessions.routes.js';
+// import productRouter from "./routes/products.routes.js"
+// import cartRouter from "./routes/carts.routes.js";
+// import userRouter from "./routes/users.routes.js";
+// import sessionRouter from './routes/sessions.routes.js';
+import router from './routes/index.routes.js';
 import multer from "multer";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
@@ -12,7 +13,6 @@ import { __dirname } from "./path.js";
 import path from "path";
 import { ProductManager } from "./controllers/ProductManager.js";
 import cookieParser from "cookie-parser";
-import cartModel from "./models/carts.model.js";
 import MongoStore from 'connect-mongo';
 import mongoose from 'mongoose';
 import passport from 'passport';
@@ -100,12 +100,14 @@ app.use("/login", express.static(path.join(__dirname, "/public")));
 app.use("/logout", express.static(path.join(__dirname, "/public")));
 app.use("/register", express.static(path.join(__dirname, "/public")));
 app.use("/products", express.static(path.join(__dirname, "/public")));
-app.use("/api/login", sessionRouter);
-app.use("/api/logout", sessionRouter);
-app.use("/api/products", productRouter);
-app.use("/api/carts", cartRouter);
-app.use("/api/users", userRouter);
-app.use("/api/sessions", sessionRouter);
+
+app.use('/', router)
+// app.use("/api/products", productRouter);
+// app.use("/api/carts", cartRouter);
+// app.use("/api/users", userRouter);
+// app.use("/api/sessions", sessionRouter);
+// app.use("/api/login", sessionRouter);
+// app.use("/api/logout", sessionRouter);
 
 //Cookies
 app.get('/setCookie',(req,res) => {

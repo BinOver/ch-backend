@@ -8,7 +8,7 @@ import userModel from '../models/users.models.js';
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
-const ExtractJWT = jwt.ExtractJWT;
+const ExtractJWT = jwt.ExtractJwt;
 
 const initializePassport = () => {
 
@@ -19,8 +19,8 @@ const initializePassport = () => {
     }
 
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest: ExtractJWT.fromExtractors(cookiesExtractor),
-        secretrKey: process.env.JWT_SECRET
+        jwtFromRequest: ExtractJWT.fromExtractors([cookiesExtractor]),
+        secretOrKey: process.env.JWT_SECRET
     }, async (jwt_payload, done) => {
         try {
             return done(null, jwt_payload);
