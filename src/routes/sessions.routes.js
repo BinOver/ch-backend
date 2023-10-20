@@ -33,8 +33,8 @@ sessionRouter.get('/githubSession', passport.authenticate('github'), async(req,r
     res.status(200).send({mensaje:'Sesion creada'});
 })
 
-sessionRouter.get('/',async (req, res) => {
-    if (req.session.login){
+sessionRouter.get('/logout',async (req, res) => {
+    if (req.session){
         req.session.destroy();
         // res.status(200).send({resutado: 'Sesion terminada'});
         res.redirect('/login',200,{resutado: 'Sesion terminada'});

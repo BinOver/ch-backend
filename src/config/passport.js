@@ -2,12 +2,33 @@ import 'dotenv/config';
 import local from 'passport-local';
 import passport from 'passport';
 import GithubStrategy from 'passport-github2';
+import jwt from 'passport-jwt';
 import { createHash, validatePassword } from './bcrypt.js';
 import userModel from '../models/users.models.js';
 
 const LocalStrategy = local.Strategy;
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJWT;
 
 const initializePassport = () => {
+
+    const cookiesExtractor = req =>{
+        console.log(req.cookies);
+        const token = req.cookies ? req.cookies.jwtCookie : {};
+        console.log(token);
+    }
+
+    passport.use('jwt', new JWTStrategy({
+        jwtFromRequest: ExtractJWT.fromExtractors(cookiesExtractor),
+        secretrKey: process.env.JWT_SECRET
+    }, async (jwt_payload, done) => {
+        try {
+            return done(null, jwt_payload);
+        }catch (err) {
+            return done(err);
+        }
+    }))
+
     passport.use('register', new LocalStrategy(
         {
             passReqToCallback: true,
@@ -44,9 +65,7 @@ const initializePassport = () => {
 
         try{
             const user = await userModel.findOne({email: profile._json.email});
-            if(user){
-                done(null,false);
-            }else {
+            if(!user){
                 const userCreated = await userModel.create({
                     first_name: profile._json.name,
                     last_name: ' ',
@@ -55,6 +74,8 @@ const initializePassport = () => {
                     password: 'password'
                 })
                 done(null,userCreated);
+            }else {
+                done(null,user);
             }
         }catch (err){
             done(err);
