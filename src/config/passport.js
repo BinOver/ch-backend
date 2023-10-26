@@ -12,14 +12,15 @@ const ExtractJWT = jwt.ExtractJwt;
 
 const initializePassport = () => {
 
-    const cookiesExtractor = req =>{
-        console.log(req.cookies);
-        const token = req.cookies ? req.cookies.jwtCookie : {};
-        console.log(token);
+    const cookieExtractor = req => {
+        console.log(req.cookies)
+        const token = req.cookies ? req.cookies.jwtCookie : {}
+        console.log(token)
+        return token
     }
 
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest: ExtractJWT.fromExtractors([cookiesExtractor]),
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
         secretOrKey: process.env.JWT_SECRET
     }, async (jwt_payload, done) => {
         try {
@@ -35,7 +36,7 @@ const initializePassport = () => {
             usernameField: 'email',
         },
         async (req,username,password,done) => {
-            const {firstName, lastName, email, age} = req.body;
+            const { first_name, last_name, email, age } = req.body
             try {
                 const user = await userModel.findOne({ email :email })
                 if (user) {
@@ -43,11 +44,11 @@ const initializePassport = () => {
                 }
                 const passwordHash = createHash(password);
                 const userCreated = await userModel.create({
-                    firstName : firstName,
-                    lastName : lastName,
-                    email : email,
-                    age : age,
-                    password : passwordHash
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    age: age,
+                    password: passwordHash
                 })
                 console.log (userCreated);
                 return done(null, userCreated);

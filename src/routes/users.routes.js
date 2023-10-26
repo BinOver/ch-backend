@@ -15,7 +15,7 @@ userRouter.get('/', async (req, res) => {
     }
 })
 
-*userRouter.post('/', passport.authenticate('register'), async (req, res) => {
+userRouter.post('/', passport.authenticate('register'), async (req, res) => {
     try {
         if(!req.user){
             res.status(400).send({mensaje: 'El usuario ya existe'})

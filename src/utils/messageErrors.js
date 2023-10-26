@@ -15,12 +15,12 @@ export const passportError = (strategy) => {
     }
 };
 
-export const authoritzation = (rol) => {
+export const authoritation = (rol) => {
     return async (req, res, next) => {
         if(!req.user) {
             return res.status(401).send({error: 'Usuario no autorizado'});
         }
-        if(req.user.user[0].rol != rol){
+        if(req.user.user.rol != rol){
             return res.status(403).send({error: 'Usuario sin privilegios necesarios'});
         }
         next();
