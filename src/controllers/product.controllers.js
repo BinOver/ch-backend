@@ -1,6 +1,6 @@
 import productModel from '../models/products.models.js'
 
-export const getProducts = async() => {
+export const getProducts = async(req, res) => {
     const {limit, page, filter, sort} = req.query;
     const pag = page != undefined ? page : 1;
     const lim = limit ? limit : 10;
@@ -15,11 +15,11 @@ export const getProducts = async() => {
         res.status(404).send({ error: 'Productos no encontrados' });
         
     } catch(error) {
-        resizeBy.status(500).send({error: `Error al consultar productos: ${error}`})
+        res.status(500).send({error: `Error al consultar productos: ${error}`})
     }
 }
 
-export const getProduct = async() => {
+export const getProduct = async(req, res) => {
     const {id} = req.params;
 
     try {
@@ -31,11 +31,11 @@ export const getProduct = async() => {
         res.status(404).send({ error: 'Producto no encontrado' });
         
     } catch(error) {
-        resizeBy.status(500).send({error: `Error al consultar producto: ${error}`})
+        res.status(500).send({error: `Error al consultar producto: ${error}`})
     }
 }
 
-export const postProduct = async() => {
+export const postProduct = async(req, res) => {
     const { title, description, code, price, stock, category } = req.body;
 
     try {
@@ -50,12 +50,12 @@ export const postProduct = async() => {
         if(error.code == 11000){
             return res.status(400).send({error: `Llave duplicada`})
         } else {
-            resizeBy.status(500).send({error: `Error al consultar producto: ${error}`})
+            res.status(500).send({error: `Error al consultar producto: ${error}`})
         }
     }
 }
 
-export const putProduct = async() => {
+export const putProduct = async(req, res) => {
     const {id} = req.params;
     const { title, description, code, price, stock, category } = req.body;
 
@@ -68,11 +68,11 @@ export const putProduct = async() => {
         res.status(404).send({ error: 'Producto no encontrado' });
         
     } catch(error) {
-        resizeBy.status(500).send({error: `Error al actualizar producto: ${error}`})
+        res.status(500).send({error: `Error al actualizar producto: ${error}`})
     }
 }
 
-export const deleteProduct = async() => {
+export const deleteProduct = async(req, res) => {
     const {id} = req.params;
 
     try {
@@ -84,7 +84,7 @@ export const deleteProduct = async() => {
         res.status(404).send({ error: 'Producto no encontrado' });
         
     } catch(error) {
-        resizeBy.status(500).send({error: `Error al eliminar producto: ${error}`})
+        res.status(500).send({error: `Error al eliminar producto: ${error}`})
     }
 }
 
