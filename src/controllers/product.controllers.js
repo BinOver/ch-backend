@@ -1,5 +1,4 @@
 import productModel from '../models/products.models.js'
-import { paginate } from 'mongoose-paginate-v2';
 
 export const getProducts = async() => {
     const {limit, page, filter, sort} = req.query;
@@ -8,7 +7,7 @@ export const getProducts = async() => {
     const ord = sort == 'asc' ? 1 : - 1;
 
     try {
-        const products = await productModel.find({ filter: filter }, { limit:lim, page:pag, sort: {price:ord}});
+        const products = await productModel.paginate({ filter: filter }, { limit:lim, page:pag, sort: {price:ord}});
         
         if(products){
             return res.status(200).send(products);
@@ -73,7 +72,7 @@ export const putProduct = async() => {
     }
 }
 
-export const deletProduct = async() => {
+export const deleteProduct = async() => {
     const {id} = req.params;
 
     try {
@@ -89,8 +88,8 @@ export const deletProduct = async() => {
     }
 }
 
-productSchema.plugin(paginate);
+/*productSchema.plugin(paginate);
 
 export const orderModel = model('order', orderSchema);
 
-export default productModel;
+export default productModel;*/
