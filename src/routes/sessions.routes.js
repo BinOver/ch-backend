@@ -1,7 +1,9 @@
 import { Router } from "express";
 import passport from "passport";
 import { passportError, authoritation } from "../utils/messageErrors.js";
-import {login, register, logout } from "../controllers/session.controller.js";
+import { login } from "../controllers/Session/login.controllers.js"
+import { register } from "../controllers/Session/register.controllers.js"
+import { logout } from "../controllers/Session/logout.controllers.js";
 
 const sessionRouter = Router();
 

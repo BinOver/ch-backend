@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { getProducts, getProduct, postProduct, putProduct, deleteProduct } from "../controllers/product.controllers.js";
+import { getProducts, getProduct } from "../controllers/Product/getProduct.controllers.js";  
+import { postProduct } from "../controllers/Product/postProduct.controllers.js"; 
+import { putProduct} from "../controllers/Product/putProduct.controllers.js";
+import { deleteProduct } from "../controllers/Product/deleteProduct.controllers.js";
 import { passportError, authoritation } from "../utils/messageErrors.js";
-//import productModel from "../models/products.models.js";
 
 const productRouter = Router();
 
@@ -12,4 +14,3 @@ productRouter.put('/:id', passportError('jwt'), authoritation('admin'), putProdu
 productRouter.delete('/:id', passportError('jwt'), authoritation('admin'), deleteProduct);
 
 export default productRouter;
-

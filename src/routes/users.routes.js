@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { getUser, postUser } from "../controllers/user.controllers.js";
+import { getUser } from "../controllers/User/getUser.controllers.js";
+import { postUser } from "../controllers/User/postUser.controllers.js";
 import { passportError, authoritation } from "../utils/messageErrors.js";
 
 
