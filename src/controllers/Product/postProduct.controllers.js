@@ -4,7 +4,7 @@ import productModel from '../../models/products.models.js'
 export const postProduct = async(req, res) => {
     const { title, description, code, price, stock, category } = req.body;
     try {
-        const product = await productModel.create({ title, description, code, price, stock, category })
+        const product = await productModel.create({ title, description, code, price, stock, category });
         if(product){
             return res.status(201).send(product);
         }

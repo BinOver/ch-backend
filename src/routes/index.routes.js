@@ -3,6 +3,7 @@ import cartRouter from "./carts.routes.js";
 import productRouter from "./products.routes.js";
 import sessionRouter from "./sessions.routes.js";
 import userRouter from "./users.routes.js";
+import ticketRouter from "./tickets.router.js";
 
 const router = Router();
 
@@ -13,5 +14,7 @@ router.use('/api/cart', cartRouter);
 
 router.use("/api/login", sessionRouter);
 router.use("/api/logout", sessionRouter);
+
+router.use("/api/tickets", ticketRouter);
 
 export default router;
