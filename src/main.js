@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import config from './config/config.js'
 import express from "express";
 import session from 'express-session';
 import router from './routes/index.routes.js';
@@ -9,11 +9,12 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 import initializePassport from './config/passport.js';
 
-const PORT = 4000;
 const app = express();
 
+const {port, mongoURL, sessionSecret, signedCookie} = config;
+
 // Conexion con MongoDB Atlas
-mongoose.connect( process.env.MONGO_URL )
+mongoose.connect( mongoURL )
 .then(async () => {
   console.log("DB conectada")
   // await cartModel.create({})
@@ -23,15 +24,15 @@ mongoose.connect( process.env.MONGO_URL )
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser(process.env.SIGNED_COOKIE));
+app.use(cookieParser(signedCookie));
 app.use(session({
     //store: new fileStorage ({path:'./sessions', ttl:10000,retries:1}),
     store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL,
+      mongoUrl: mongoURL,
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 90
     }),
-    secret: process.env.SESSION_SECRET,
+    secret: sessionSecret,
     resave: true,
     saveUninitialized: true
 }))
@@ -43,6 +44,6 @@ app.use(passport.session());
 app.use('/', router)
 
 //Server
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });

@@ -1,4 +1,5 @@
-import 'dotenv/config';
+// import 'dotenv/config';
+import config from './config.js'
 import local from 'passport-local';
 import passport from 'passport';
 import GithubStrategy from 'passport-github2';
@@ -9,6 +10,8 @@ import userModel from '../models/users.models.js';
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
+
+const { jwtSecret, clientID, clientSecret, callbackURL } = config
 
 const initializePassport = () => {
 
@@ -21,7 +24,7 @@ const initializePassport = () => {
 
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: process.env.JWT_SECRET
+        secretOrKey: jwtSecret
     }, async (jwt_payload, done) => {
         try {
             return done(null, jwt_payload);
@@ -59,9 +62,9 @@ const initializePassport = () => {
     ));
 
     passport.use('github', new GithubStrategy({
-        clientID: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: process.env.CALLBACK_URL
+        clientID: clientID,
+        clientSecret: clientSecret,
+        callbackURL: callbackURL
     }, async(accessToken, refreshToken, profile, done) => {
 
         try{
