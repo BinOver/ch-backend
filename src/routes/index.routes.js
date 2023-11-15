@@ -4,7 +4,8 @@ import productRouter from "./products.routes.js";
 import sessionRouter from "./sessions.routes.js";
 import userRouter from "./users.routes.js";
 import ticketRouter from "./tickets.router.js";
-import mockRouter from "./mock.routes.js"
+import mockRouter from "./mock.routes.js";
+import loggerTestRouter from "./loggertest.router.js";
 
 const router = Router();
 
@@ -19,5 +20,7 @@ router.use("/api/logout", sessionRouter);
 router.use("/api/tickets", ticketRouter);
 
 router.use("/api/mockingproducts", mockRouter);
+
+router.use("/api/loggerTest", loggerTestRouter);
 
 export default router;
